@@ -1,5 +1,7 @@
 # Cartoon-GAN
 
+**Paper:** https://arxiv.org/abs/2005.07702
+
 ## Abstract
 This project takes on the problem of transferring
 the style of cartoon images to real-life photographic images by

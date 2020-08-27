@@ -73,7 +73,7 @@ def predict_file(input_path, output_path):
         frame_rate = subprocess.check_output(f"ffprobe -v error -select_streams v -of default=noprint_wrappers=1:nokey=1 -show_entries stream=r_frame_rate \"{input_path}\"")
         frame_rate = eval(frame_rate.split()[0]) # Dirty eval
         # Combine frames with original audio
-        subprocess.run(f"ffmpeg -y -r {frame_rate} -i \"{os.path.join(temp_dir.name, 'frame_%07d.png')}\" -i \"{input_path}\" -map 0:v -map 1:a -loglevel error -stats \"{output_path}\"")
+        subprocess.run(f"ffmpeg -y -r {frame_rate} -i \"{os.path.join(temp_dir.name, 'frame_%07d.png')}\" -i \"{input_path}\" -map 0:v -map 1:a? -loglevel error -stats \"{output_path}\"")
     else:
         raise IOError("Invalid file extension.")
 

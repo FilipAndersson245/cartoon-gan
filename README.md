@@ -9,7 +9,9 @@ This project takes on the problem of transferring
 the style of cartoon images to real-life photographic images by
 implementing previous work done by CartoonGAN. We trained
 a Generative Adversial Network(GAN) on over 60 000 images
-from works by Hayao Miyazaki at Studio Ghibli.
+from works by Hayao Miyazaki at Studio Ghibli.  
+
+To the people asking for the dataset, im sorry but as the material is copyright protected i cannot share the dataset.
 
 ## Dependencies
 

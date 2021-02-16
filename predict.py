@@ -87,15 +87,18 @@ if __name__ == "__main__":
     parser.add_argument("-d", "--device", type=str, default="cuda")
     parser.add_argument("-b", "--batch_size", type=int, default=4)
 
-    input_path, output_path, device, batch_size = vars(parser.parse_args()).values()
-
-    device = torch.device(device)
+    input_path, output_path, user_stated_device, batch_size = vars(parser.parse_args()).values()
+    
+    device = torch.device(user_stated_device)
     pretrained_dir = "./checkpoints/trained_netG.pth"
     netG = Generator().to(device)
     netG.eval()
 
     # Load weights
-    netG.load_state_dict(torch.load(pretrained_dir))
+    if user_stated_device == "cuda":
+        netG.load_state_dict(torch.load(pretrained_dir))
+    else:
+        netG.load_state_dict(torch.load(pretrained_dir, map_location=torch.device('cpu')))
 
     # Single file
     if os.path.isfile(input_path):

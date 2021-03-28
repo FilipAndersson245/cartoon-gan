@@ -5,11 +5,11 @@ from torchvision.models import vgg16
 import gc
 
 class AdversialLoss(nn.Module):
-    def __init__(self, cartoon_labels, fake_labels, device="cpu"):
+    def __init__(self, cartoon_labels, fake_labels):
         super(AdversialLoss, self).__init__()
         self.cartoon_labels = cartoon_labels
         self.fake_labels = fake_labels
-        self.base_loss = nn.BCELoss().to(device)
+        self.base_loss = nn.BCEWithLogitsLoss()
 
     def forward(self, cartoon, generated_f, edge_f):
         #print(cartoon.shape, self.cartoon_labels.shape)
@@ -22,14 +22,14 @@ class AdversialLoss(nn.Module):
         
 
 class ContentLoss(nn.Module):
-    def __init__(self, omega=10, device="cpu"):
+    def __init__(self, omega=10):
         super(ContentLoss, self).__init__()
 
-        self.base_loss = nn.L1Loss().to(device)
+        self.base_loss = nn.L1Loss()
         self.omega = omega
 
         perception = list(vgg16(pretrained=True).features)[:25]
-        self.perception = nn.Sequential(*perception).eval().to(device)
+        self.perception = nn.Sequential(*perception).eval()
 
         for param in self.perception.parameters():
             param.requires_grad = False

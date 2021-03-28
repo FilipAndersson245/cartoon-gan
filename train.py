@@ -25,10 +25,9 @@ def train():
 
     # Models
     netD = Discriminator().to(device)
-    netD.load_state_dict(torch.load("./checkpoints/netD_e4_i4000_l13.661188125610352.pth"))
     netG = Generator().to(device)
     # Here you should load the pretrained G
-    netG.load_state_dict(torch.load("./checkpoints/netG_e4_i4000_l13.661188125610352.pth"))
+    netG.load_state_dict(torch.load("./checkpoints/pretrained_netG.pth"))
 
     optimizerD = AdamW(netD.parameters(), lr=learning_rate, betas=(beta1, beta2), weight_decay=weight_decay)
     optimizerG = AdamW(netG.parameters(), lr=learning_rate, betas=(beta1, beta2), weight_decay=weight_decay)

@@ -21,7 +21,7 @@ def train():
     learning_rate = 1e-4
     beta1, beta2 = (.5, .99)
     weight_decay = 1e-4
-    epochs = 10
+    epochs = 1000
 
     # Models
     netD = Discriminator().to(device)

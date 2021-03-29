@@ -1,6 +1,7 @@
 datasets
 checkpoints/*
 !checkpoints/trained_netG.pth
+!checkpoints/pretrained_netG.pth
 test
 results
 runs

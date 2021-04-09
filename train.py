@@ -10,6 +10,11 @@ from utils.datasets import get_dataloader
 from models.discriminator import Discriminator
 from models.generator import Generator
 
+from datetime import datetime
+import numpy as np
+
+torch.backends.cudnn.benchmark = True
+
 
 def train():
     torch.manual_seed(1337)
@@ -27,7 +32,7 @@ def train():
     netD = Discriminator().to(device)
     netG = Generator().to(device)
     # Here you should load the pretrained G
-    netG.load_state_dict(torch.load("./checkpoints/pretrained_netG.pth"))
+    netG.load_state_dict(torch.load("./checkpoints/pretrained_netG.pth").state_dict())
 
     optimizerD = AdamW(netD.parameters(), lr=learning_rate, betas=(beta1, beta2), weight_decay=weight_decay)
     optimizerG = AdamW(netG.parameters(), lr=learning_rate, betas=(beta1, beta2), weight_decay=weight_decay)
@@ -71,6 +76,8 @@ def train():
             
             # Reset Discriminator gradient.
             netD.zero_grad()
+            for param in netD.parameters():
+                param.requires_grad = True
 
             # Format batch.
             cartoon_data   = cartoon_edge_data[:, :, :, :image_size].to(device)
@@ -84,13 +91,13 @@ def train():
                 # Forward pass all batches through D.
                 cartoon_pred   = netD(cartoon_data)      #.view(-1)
                 edge_pred      = netD(edge_data)         #.view(-1)
-                generated_pred = netD(generated_data)    #.view(-1)
+                generated_pred = netD(generated_data.detach())    #.view(-1)
 
                 # Calculate discriminator loss on all batches.
                 errD = adv_loss(cartoon_pred, generated_pred, edge_pred)
             
             # Calculate gradients for D in backward pass
-            scaler.scale(errD).backward(retain_graph=True)
+            scaler.scale(errD).backward()
             D_x = cartoon_pred.mean().item() # Should be close to 1
 
             # Update D
@@ -103,7 +110,9 @@ def train():
             
             # Reset Generator gradient.
             netG.zero_grad()
-            
+            for param in netD.parameters():
+                param.requires_grad = False
+
             with torch.cuda.amp.autocast():
                 # Since we just updated D, perform another forward pass of all-fake batch through D
                 generated_pred = netD(generated_data) #.view(-1)
@@ -132,6 +141,10 @@ def train():
                 with torch.no_grad():
                     fake = netG(tracked_images)
                 vutils.save_image(unnormalize(fake), f"images/{epoch}_{i}.png", padding=2)
+                with open("images/log.txt", "a+") as f:
+                    f.write(f"{datetime.now().isoformat(' ', 'seconds')}\tD: {np.mean(D_losses)}\tG: {np.mean(G_losses)}\n")
+                D_losses = []
+                G_losses = []
 
             if iters % 1000 == 0:
                 torch.save(netG.state_dict(), f"checkpoints/netG_e{epoch}_i{iters}_l{errG.item()}.pth")

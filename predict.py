@@ -20,7 +20,7 @@ import time
 
 def inv_normalize(img):
     # Adding 0.1 to all normalization values since the model is trained (erroneously) without correct de-normalization
-    mean = torch.Tensor([0.485+0.1, 0.456+0.1, 0.406+0.1]).to(device)
+    mean = torch.Tensor([0.485, 0.456, 0.406]).to(device)
     std = torch.Tensor([0.229, 0.224, 0.225]).to(device)
 
     img = img * std.view(1, 3, 1, 1) + mean.view(1, 3, 1, 1)

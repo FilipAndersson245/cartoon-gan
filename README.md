@@ -67,3 +67,16 @@ Predictions can be made on images, videos or a folder of images/videos.
 |18| ![Original_18](https://i.imgur.com/3Bmytxv.png) | ![CartoonGAN_18](https://i.imgur.com/xDDbMvN.jpg) | ![GANILLA_18](https://i.imgur.com/uvqW1qu.png) | ![Ours_18](https://i.imgur.com/T2MZ7sw.png) |
 |19| ![Original_19](https://i.imgur.com/mamrZXA.png) | ![CartoonGAN_19](https://i.imgur.com/klK2o5w.jpg) | ![GANILLA_19](https://i.imgur.com/y3cNt1p.png) | ![Ours_19](https://i.imgur.com/0KAU6Cn.png) |
 |20| ![Original_20](https://i.imgur.com/KQNKysf.png) | ![CartoonGAN_20](https://i.imgur.com/9d2jhzd.jpg) | ![GANILLA_20](https://i.imgur.com/eER4szz.png) | ![Ours_20](https://i.imgur.com/8jkKL88.png) |
+
+## Citation
+
+```
+@misc{andersson2020generative,
+      title={Generative Adversarial Networks for photo to Hayao Miyazaki style cartoons}, 
+      author={Filip Andersson and Simon Arvidsson},
+      year={2020},
+      eprint={2005.07702},
+      archivePrefix={arXiv},
+      primaryClass={cs.GR}
+}
+```

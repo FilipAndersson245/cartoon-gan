@@ -27,6 +27,10 @@ To the people asking for the dataset, im sorry but as the material is copyright 
 
 4. For predicting videos you will also need ffmpeg
 
+## Weights
+Weights for the presented models can be found [here](https://drive.google.com/drive/folders/1d_GsZncTGmMdYht0oUWG9pqvV4UqF_kM?usp=sharing)
+
+
 ## Training
 
 All training code can be found in `experiment.ipynb`
